@@ -1,0 +1,11 @@
+
+DELETE FROM Transactions
+WHERE transaction_id NOT IN (
+    SELECT MIN(transaction_id)
+    FROM Transactions
+    GROUP BY customer_id, product_id, purchase_date
+);
+
+UPDATE Customers
+SET age = (SELECT AVG(age) FROM Customers)
+WHERE age IS NULL;

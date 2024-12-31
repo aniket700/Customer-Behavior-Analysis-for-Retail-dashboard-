@@ -16,3 +16,21 @@ grouped = df.groupby(['customer_id', 'product_id'])
 for name, group in grouped:
     print(f"Group: {name}")
     print(group)
+import pandas as pd
+import matplotlib.pyplot as plt
+
+customers = pd.read_csv('customers.csv')
+transactions = pd.read_csv('transactions.csv')
+products = pd.read_csv('products.csv')
+
+data = transactions.merge(customers, on='customer_id').merge(products, on='product_id')
+
+data['total_spent'] = data['quantity'] * data['price']
+customer_spending = data.groupby('customer_id')['total_spent'].sum().reset_index()
+
+top_customers = customer_spending.sort_values('total_spent', ascending=False).head(10)
+plt.bar(top_customers['customer_id'], top_customers['total_spent'])
+plt.title('Top 10 Customers by Spending')
+plt.xlabel('Customer ID')
+plt.ylabel('Total Spent')
+plt.show()

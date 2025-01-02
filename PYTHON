@@ -1,0 +1,17 @@
+from sklearn.cluster import KMeans
+import matplotlib.pyplot as plt
+X = df[['purchase_frequency', 'avg_spend']]
+kmeans = KMeans(n_clusters=3)
+df['segment'] = kmeans.fit_predict(X)
+plt.scatter(df['purchase_frequency'], df['avg_spend'], c=df['segment'], cmap='viridis')
+plt.xlabel('Purchase Frequency')
+plt.ylabel('Average Spend')
+plt.title('Customer Segments')
+plt.show()
+high_value_customers = df[df['avg_spend'] > df['avg_spend'].quantile(0.8)]
+at_risk_customers = df[df['last_purchase_date'] < '2023-06-01']
+import pandas as pd
+report = pd.concat([high_value_customers[['customer_id', 'avg_spend']],
+                    at_risk_customers[['customer_id', 'last_purchase_date']]])
+report.to_excel('customer_behavior_analysis_report.xlsx', index=False)
+

@@ -1,0 +1,28 @@
+SQL Query to Fetch Data
+SELECT 
+    customer_id, 
+    customer_name, 
+    age, 
+    gender, 
+    city, 
+    product_id, 
+    purchase_value, 
+    purchase_date 
+FROM 
+    retail_customer_data
+WHERE 
+    purchase_date >= '2020-01-01';
+
+SQL Query for Segmentation
+SELECT 
+    customer_id, 
+    COUNT(*) AS purchase_frequency, 
+    AVG(purchase_value) AS avg_spend, 
+    MAX(purchase_date) AS last_purchase_date
+FROM 
+    retail_customer_data
+GROUP BY 
+    customer_id
+HAVING 
+    COUNT(*) > 5;
+
